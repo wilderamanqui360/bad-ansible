@@ -1,0 +1,17 @@
+---
+- name: Install frontend software
+  package:
+    name: "{{ three_tier_frontend_packages }}"
+    state: latest
+
+- name: configure haproxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify: restart-haproxy
+
+- name: Start HAproxy
+  service:
+    name: haproxy
+    state: started
+    enabled: true
